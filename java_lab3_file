@@ -1,0 +1,140 @@
+ВариантNo4
+1. Создать текстовый файл, содержащий сведения о преподавателя: Фамилия И.О.,
+степень, кафедра, дисциплина. Затем информацию о преподавателях, относящихся к
+разням кафедрам, переписать в файлы, соответствующие названиям факультетов.
+2. Открыть файл числами, записанными в столбик. Обновить данные, содержащиеся в
+файле, умножив числа на число π. Округлить дробные числа до четырех знаков после
+запятой и перезаписать округленные результаты в исходный файл.
+3. Задан файл целых чисел f1.Написать программу, заполняющую файл f2 элементами
+файла f1,значения которых меньше или равно 50.Вывести на экран f1 и f2.
+4. С клавиатуры вводятся целые числа. Открыть файл f2 из предыдущего задания и
+дописать в него числа с клавиатуры. Вывести результаты на экран.
+5. Создайте файл. Переименуйте файл так, чтоб он совпадал с вашим именем.
+-------------------------------------------------------------------------------------
+Задание №1
+-------------------------------------------------------------------------------------
+Задание №2
+String fileName = "numbers.txt"; // имя файла с числами
+                double pi = Math.PI; // число пи
+                DecimalFormat decimalFormat = new DecimalFormat("0.0000"); // форматирование для округления до 4 знаков после запятой
+
+                try {
+                    // читаем числа из файла
+                    FileReader fileReader = new FileReader(fileName);
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    String line;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                    bufferedReader.close();
+
+                    // умножаем числа на число пи и округляем до 4 знаков после запятой
+                    String[] numbers = stringBuilder.toString().split("\n");
+                    stringBuilder = new StringBuilder();
+                    for (String number : numbers) {
+                        double value = Double.parseDouble(number.trim()) * pi;
+                        stringBuilder.append(decimalFormat.format(value)).append("\n");
+                    }
+
+                    // записываем результаты в исходный файл
+                    FileWriter fileWriter = new FileWriter(fileName);
+                    fileWriter.write(stringBuilder.toString());
+                    fileWriter.close();
+
+                    System.out.println("Файл успешно обновлен.");
+
+                } catch (IOException e) {
+                    System.out.println("Ошибка при обновлении файла: " + e.getMessage());
+                }
+-------------------------------------------------------------------------------------
+Задание №3
+try {
+            // Создаем файл f1 и заполняем его целыми числами
+            File f1 = new File("f1.txt");
+            FileWriter writer = new FileWriter(f1);
+            System.out.println("Введите количество цифр для рандома: ");
+            int N = new Scanner(System.in).nextInt();
+            for (int i = 0; i < N; i++) {
+                int randomNumber = (int)(Math.random() * 100);
+                writer.write(randomNumber + "\n");
+            }
+            writer.close();
+
+            // Создаем новый файл f2 и записываем в него числа из f1 <= 50
+            File f2 = new File("f2.txt");
+            FileReader reader = new FileReader(f1);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            FileWriter writer2 = new FileWriter(f2);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                int number = Integer.parseInt(line);
+                if (number <= 50) {
+                    writer2.write(number + "\n");
+                }
+            }
+            writer2.close();
+            bufferedReader.close();
+            reader.close();
+
+            // Выводим содержимое файлов f1 и f2 на экран
+            System.out.println("Содержимое файла f1:");
+            FileReader reader1 = new FileReader(f1);
+            BufferedReader bufferedReader1 = new BufferedReader(reader1);
+            while ((line = bufferedReader1.readLine()) != null) {
+                System.out.println(line);
+            }
+            bufferedReader1.close();
+            reader1.close();
+
+            System.out.println("\nСодержимое файла f2:");
+            FileReader reader2 = new FileReader(f2);
+            BufferedReader bufferedReader2 = new BufferedReader(reader2);
+            while ((line = bufferedReader2.readLine()) != null) {
+                System.out.println(line);
+            }
+            bufferedReader2.close();
+            reader2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+-------------------------------------------------------------------------------------
+Задание №4
+try {
+            // Открываем файл f2 для дозаписи
+            File f2 = new File("f2.txt");
+            FileWriter writer2 = new FileWriter(f2, true);
+
+            // Считываем целые числа с клавиатуры и записываем их в файл f2
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введите целые числа для записи в файл f2 (для завершения введите 'end'):");
+            while (scanner.hasNextInt()) {
+                int number = scanner.nextInt();
+                writer2.write(number + "\n");
+            }
+            scanner.close();
+            writer2.close();
+
+            // Выводим содержимое файла f2 на экран
+            System.out.println("Содержимое файла f2 после дозаписи:");
+            FileReader reader2 = new FileReader(f2);
+            BufferedReader bufferedReader2 = new BufferedReader(reader2);
+            String line;
+            while ((line = bufferedReader2.readLine()) != null) {
+                System.out.println(line);
+            }
+            bufferedReader2.close();
+            reader2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        -------------------------------------------------------------------------------------        
+Задание №5
+File oldFile = new File("file.txt");
+        File newFile = new File(new Scanner(System.in).nextLine()+".estxt");
+        boolean renamed = oldFile.renameTo(newFile);
+        if (renamed) {
+            System.out.println("Файл успешно переименован");
+        } else {
+            System.out.println("Не удалось переименовать файл");
+        }
